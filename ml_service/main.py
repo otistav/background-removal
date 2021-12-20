@@ -24,10 +24,10 @@ import argparse
 import os
 import tqdm
 import logging
-from libs.strings import *
-from libs.networks import model_detect
-import libs.preprocessing as preprocessing
-import libs.postprocessing as postprocessing
+from ml_service.ibs.strings import *
+from ml_service.libs.networks import model_detect
+import ml_service.libs.preprocessing as preprocessing
+import ml_service.libs.postprocessing as postprocessing
 
 logging.basicConfig(level=logging.ERROR)
 logger = logging.getLogger(__name__)
