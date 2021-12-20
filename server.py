@@ -1,5 +1,5 @@
 from flask import Flask, jsonify, request
-from ml_service.main import process
+from main import process
 app = Flask(__name__)
 
 @app.route('/image', methods=['POST'])
