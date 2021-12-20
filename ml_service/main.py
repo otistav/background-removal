@@ -24,7 +24,7 @@ import argparse
 import os
 import tqdm
 import logging
-from ml_service.ibs.strings import *
+from ml_service.libs.strings import *
 from ml_service.libs.networks import model_detect
 import ml_service.libs.preprocessing as preprocessing
 import ml_service.libs.postprocessing as postprocessing
