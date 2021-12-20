@@ -8,3 +8,5 @@ def echo():
 
     process(params['input'], params['output'], 'u2net', 'bbd-fastrcnn', 'rtb-bnb')
     return jsonify({"jjj": "eee"})
+
+app.run()
