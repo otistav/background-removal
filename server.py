@@ -8,7 +8,7 @@ import pymongo
 import datetime
 app = Flask(__name__)
 def get_database():
-    CONNECTION_STRING = "mongodb://localhost:27017/"
+    CONNECTION_STRING = "mongodb://mongo:27017/"
     client = MongoClient(CONNECTION_STRING)
     return client['test']
 
