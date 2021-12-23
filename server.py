@@ -41,9 +41,8 @@ app = Flask(__name__)
 
 @app.route('/image', methods=['POST'])
 def echo():
-    params = jsonify(request.get_json(force=True))
+    params = request.json
     new_id = f"{params['filename']}_processed"
-
     process(f"../uploads/{params['filename']}", new_id, 'u2net', 'bbd-fastrcnn', 'rtb-bnb')
     return jsonify({"jjj": "eee"})
 
