@@ -19,7 +19,8 @@ def download_image(imgpath):
 @app.route('/image', methods=['POST'])
 def echo():
     params = request.json
-    new_id = f"processed_{params['filename']}"
+    filename = '.'.join(params['filename'].split('.')[:-1])
+    new_id = f"processed_{filename}.png"
     download_image(params["filename"])
     process(params["filename"], new_id, 'u2net', 'bbd-fastrcnn', 'rtb-bnb')
     db = get_database()
