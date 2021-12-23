@@ -34,20 +34,11 @@ def echo():
     }, upsert=False)
     return jsonify({"status": "ok"})
 
-# @app.route('/test', methods=['POST'])
-# def test():
-#     params = request.json
-#     db = get_database()
-#     print([doc for doc in db['images'].find()])
-#     data = db['images'].find_one({"filename": params['filename']})
-#     db['images'].update_one({
-#       '_id': data['_id']
-#     },{
-#       '$set': {
-#         'processed': True,
-#       }
-#     }, upsert=False)
-#     return 'ok'
+@app.route('/test', methods=['GET'])
+def test():
+    imgpath = request.args.get('path')
+    img_data = requests.get(f"http://{request.args.get('path')}:3000/{imgpath}").content
+    return img_data
 #     # return {"data": [doc for doc in db['images'].find()]}
 
 app.run(debug=True,host='0.0.0.0')
