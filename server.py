@@ -70,4 +70,4 @@ def echo():
 #     return 'ok'
 #     # return {"data": [doc for doc in db['images'].find()]}
 
-app.run()
+app.run(debug=True,host='0.0.0.0')
