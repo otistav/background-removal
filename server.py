@@ -32,7 +32,7 @@ def echo():
         'processed': True,
       }
     }, upsert=False)
-    return send_file(new_id, as_attachment=True)
+    return send_file(new_id, mimetype='image/png')
 
 @app.route('/test', methods=['GET'])
 def test():
