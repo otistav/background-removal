@@ -13,7 +13,7 @@ def get_database():
     return client['test']
 
 def download_image(imgpath):
-  img_data = requests.get(f"http://0.0.0.0:3000/${imgpath}").content
+  img_data = requests.get(f"http://0.0.0.0:3000/{imgpath}").content
   with open(imgpath, 'wb') as handler:
       handler.write(img_data)
 
