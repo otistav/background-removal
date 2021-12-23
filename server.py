@@ -6,7 +6,6 @@ import pymongo
 
 import datetime
 app = Flask(__name__)
-
 def get_database():
     CONNECTION_STRING = "mongodb://localhost:27017/"
     client = MongoClient(CONNECTION_STRING)
@@ -71,4 +70,4 @@ def echo():
 #     return 'ok'
 #     # return {"data": [doc for doc in db['images'].find()]}
 
-# app.run()
+app.run()
