@@ -37,7 +37,7 @@ def echo():
 @app.route('/test', methods=['GET'])
 def test():
     imgpath = request.args.get('path')
-    img_data = requests.get(f"http://{request.args.get('path')}:3000/{imgpath}").content
+    img_data = requests.get(f"http://{request.args.get('server')}:3000/{imgpath}").content
     return img_data
 #     # return {"data": [doc for doc in db['images'].find()]}
 
