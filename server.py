@@ -24,7 +24,7 @@ def echo():
     download_image(params["filename"])
     process(params["filename"], new_id, 'u2net', 'bbd-fastrcnn', 'rtb-bnb')
     db = get_database()
-    data = db['images'].find_one({"filename": params['filename']})
+    data = db['images'].find_one({"filename": new_id})
     db['images'].update_one({
       '_id': data['_id']
     },{
