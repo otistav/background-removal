@@ -1,6 +1,6 @@
 import time
-# from main import process
-# import requests
+from main import process
+import requests
 from flask import Flask, jsonify, request, send_file, send_from_directory
 from pymongo import MongoClient
 import pymongo
@@ -22,7 +22,7 @@ def echo():
     params = request.json
     new_id = f"processed_{params['filename']}"
     download_image(params["filename"])
-    # process(params["filename"], new_id, 'u2net', 'bbd-fastrcnn', 'rtb-bnb')
+    process(params["filename"], new_id, 'u2net', 'bbd-fastrcnn', 'rtb-bnb')
     db = get_database()
     data = db['images'].find_one({"filename": params['filename']})
     db['images'].update_one({
