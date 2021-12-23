@@ -1,7 +1,7 @@
 import time
 from main import process
 import requests
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, send_file
 from pymongo import MongoClient
 import pymongo
 
@@ -32,13 +32,14 @@ def echo():
         'processed': True,
       }
     }, upsert=False)
-    return jsonify({"status": "ok"})
+    return send_file(new_id, as_attachment=True)
 
 @app.route('/test', methods=['GET'])
 def test():
-    imgpath = request.args.get('path')
-    img_data = requests.get(f"http://{request.args.get('server')}:3000/{imgpath}").content
-    return img_data
+    return send_file('requirements.txt', as_attachment=True)
+    # imgpath = request.args.get('path')
+    # img_data = requests.get(f"http://{request.args.get('server')}:3000/{imgpath}").content
+    # return img_data
 #     # return {"data": [doc for doc in db['images'].find()]}
 
 app.run(debug=True,host='0.0.0.0')

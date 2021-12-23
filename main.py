@@ -103,8 +103,9 @@ def process(input_path, output_path, model_name="u2net",
     postprocessing_method = postprocessing.method_detect(postprocessing_method_name)
     wmode = __work_mode__(input_path)  # Get work mode
     if wmode == "file":  # File work mode
+        print("beforeEE", flush=True)
         image = model.process_image(input_path, preprocessing_method, postprocessing_method)
-        print(image, type(image), "IMAGEEEEE")
+        print(image, type(image), "IMAGEEEEE", flush=True)
         __save_image_file__(image, os.path.basename(input_path), output_path, wmode)
     elif wmode == "dir":  # Dir work mode
         # Start process
