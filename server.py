@@ -1,4 +1,3 @@
-import time
 from main import process
 import requests
 from flask import Flask, jsonify, request, send_file, send_from_directory
@@ -32,15 +31,7 @@ def echo():
         'processed': True,
       }
     }, upsert=False)
-    return send_file(new_id, mimetype='image/png')
-
-@app.route('/test', methods=['GET'])
-def test():
-    return send_file('requirements.txt', as_attachment=True)
-    # imgpath = request.args.get('path')
-    # img_data = requests.get(f"http://{request.args.get('server')}:3000/{imgpath}").content
-    # return img_data
-#     # return {"data": [doc for doc in db['images'].find()]}
+    return jsonify({"status": "ok"})
 
 @app.route('/img/<path:path>')
 def send_js(path):
