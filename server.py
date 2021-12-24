@@ -59,7 +59,7 @@ def send_js(path):
 @app.route('/count')
 def count():
     db = get_database()
-    data = db['images'].find({ "processed": False })
-    return data.count_documents()
+    cursor = db['images'].find({ "processed": False })
+    return len(list(cursor))
 
 app.run(debug=True,host='0.0.0.0')
