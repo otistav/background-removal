@@ -1,5 +1,5 @@
 from pymongo import MongoClient
-
+import requests
 
 def get_database():
     CONNECTION_STRING = "mongodb://localhost:27017/"
@@ -14,3 +14,6 @@ for doc in data:
     print(f"PROCESSING IMAGE {doc['filename']}", flush=True)
 
 print(length)
+
+img_data = requests.get(f"http://qwdfqwdjf.comfef")
+print(img_data)

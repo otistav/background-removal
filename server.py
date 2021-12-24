@@ -47,9 +47,12 @@ def manage_worker():
 
 
 def download_image(imgpath):
-  img_data = requests.get(f"http://server/{imgpath}")
+  try:
+      img_data = requests.get(f"http://server/{imgpath}")
+  except ConnectionError:
+      return "error"
   if img_data.status_code == 404:
-    return "error"
+      return "error"
   with open(imgpath, 'wb') as handler:
       handler.write(img_data.content)
       return "ok"
