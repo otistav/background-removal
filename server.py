@@ -47,7 +47,7 @@ def manage_worker():
 
 
 def download_image(imgpath):
-  img_data = requests.get(f"http://server:3000/{imgpath}")
+  img_data = requests.get(f"http://server/{imgpath}")
   if img_data.status_code == 404:
     return "error"
   with open(imgpath, 'wb') as handler:
