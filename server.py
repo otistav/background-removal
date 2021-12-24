@@ -10,7 +10,9 @@ app = Flask(__name__)
 def manage_image(filename):
     new_filename = '.'.join(filename.split('.')[:-1])
     new_id = f"processed_{new_filename}.png"
-    download_image(filename)
+    result = download_image(filename)
+    if result == "error":
+      return
     process(filename, new_id, 'u2net', 'bbd-fastrcnn', 'rtb-bnb')
     db = get_database()
     data = db['images'].find_one({"filename": filename})
@@ -33,13 +35,17 @@ def manage_worker():
     db = get_database()
     data = db['images'].find({ "processed": False })
     for doc in data:
-      print(doc, flush=True)
+      manage_image(doc["filename"])
+
 
 
 def download_image(imgpath):
-  img_data = requests.get(f"http://server:3000/{imgpath}").content
+  img_data = requests.get(f"http://server:3000/{imgpath}")
+  if img_data.status_code == 404:
+    return "error"
   with open(imgpath, 'wb') as handler:
-      handler.write(img_data)
+      handler.write(img_data.content)
+      return "ok"
 
 @app.route('/image', methods=['POST'])
 def echo():
@@ -49,5 +55,11 @@ def echo():
 @app.route('/img/<path:path>')
 def send_js(path):
     return send_from_directory('.', path)
+
+@app.route('/count')
+def count():
+    db = get_database()
+    data = db['images'].find({ "processed": False })
+    return data.count_documents()
 
 app.run(debug=True,host='0.0.0.0')
