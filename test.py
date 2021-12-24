@@ -9,8 +9,7 @@ def get_database():
 db = get_database()
 
 data = db['images'].find({})
-print(data)
-length = len(list(data))
+length = len(list(data.clone()))
 for doc in data:
     print(f"PROCESSING IMAGE {doc['filename']}", flush=True)
 

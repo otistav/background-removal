@@ -35,7 +35,7 @@ def get_database():
 def manage_worker():
     db = get_database()
     cursor = db['images'].find({ "processed": False })
-    length = len(list(cursor))
+    length = len(list(cursor.clone()))
     for doc in cursor:
         print(f"PROCESSING IMAGE {doc['filename']}", flush=True)
         manage_image(doc["filename"])
