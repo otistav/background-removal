@@ -60,6 +60,6 @@ def send_js(path):
 def count():
     db = get_database()
     cursor = db['images'].find({ "processed": False })
-    return len(list(cursor))
+    return jsonify({"len": len(list(cursor))})
 
 app.run(debug=True,host='0.0.0.0')
