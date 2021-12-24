@@ -16,4 +16,4 @@ for doc in data:
 print(length)
 
 img_data = requests.get(f"http://185.105.2.10/1640344114525_image_onmzi0ivvhsuqh3.jpeg")
-print(img_data)
+print(img_data.request.url)
