@@ -6,6 +6,24 @@ import pymongo
 
 import datetime
 app = Flask(__name__)
+
+def manage_image(filename):
+    new_filename = '.'.join(filename.split('.')[:-1])
+    new_id = f"processed_{new_filename}.png"
+    download_image(filename)
+    process(filename, new_id, 'u2net', 'bbd-fastrcnn', 'rtb-bnb')
+    db = get_database()
+    data = db['images'].find_one({"filename": new_id})
+    db['images'].update_one({
+      '_id': data['_id']
+    },{
+      '$set': {
+        'processed': True,
+      }
+    }, upsert=False)
+    return jsonify({"status": "ok"})
+
+
 def get_database():
     CONNECTION_STRING = "mongodb://mongo:27017/"
     client = MongoClient(CONNECTION_STRING)
