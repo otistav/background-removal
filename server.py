@@ -11,7 +11,9 @@ app = Flask(__name__)
 
 def download_image(imgpath):
   try:
-      img_data = requests.get(f"http://server:80/{imgpath}")
+      o = urlparse(request.base_url)
+      host = o.hostname
+      img_data = requests.get(f"http://{host}/{imgpath}")
   except Exception as e:
       # print(f"REQUEST URL: {img_data.request.url}", flush=True)
       print(f"ERROR OCCURED {e}", flush=True)
@@ -84,13 +86,13 @@ def test(path):
   o = urlparse(request.base_url)
   host = o.hostname
   print(f"HOST: {host}", flush=True)
-  return jsonify({ "result": o })
-    # try:
-    #     img_data = requests.get(f"http://server:80/{path}")
-    #     print(f"IMGDATA {img_data}")
-    #     return { "Ok": "Ok"}
-    # except Exception as e:
-    #     print(f"EXCEPTION TEST {e}")
+  # return jsonify({ "result": o })
+  try:
+      img_data = requests.get(f"http://{host}/{path}")
+      print(f"IMGDATA {img_data}", flush=True)
+      return { "Ok": "Ok"}
+  except Exception as e:
+      print(f"EXCEPTION TEST {e}")
 
 
 
