@@ -12,7 +12,7 @@ def download_image(imgpath):
       img_data = requests.get(f"http://server:80/{imgpath}")
   except Exception as e:
       # print(f"REQUEST URL: {img_data.request.url}", flush=True)
-      print("ERROR OCCURED {e}", flush=True)
+      print(f"ERROR OCCURED {e}", flush=True)
       return "error"
   if img_data.status_code == 404:
       return "error"
@@ -76,6 +76,18 @@ def count():
     db = get_database()
     cursor = db['images'].find({ "processed": False })
     return jsonify({"len": len(list(cursor))})
+
+@app.route('/test/<path:path>')
+def test(path):
+    try:
+        img_data = requests.get(f"http://server:80/{path}")
+        print(f"IMGDATA {img_data}")
+        return { "Ok": "Ok"}
+    except Exception as e:
+        print(f"EXCEPTION TEST {e}")
+
+
+
 
 manage_worker()
 app.run(debug=True,host='0.0.0.0')
