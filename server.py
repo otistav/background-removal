@@ -7,9 +7,21 @@ import pymongo
 import datetime
 app = Flask(__name__)
 
+def download_image(imgpath):
+  try:
+      img_data = requests.get(f"http://server/{imgpath}")
+  except ConnectionError:
+      return "error"
+  if img_data.status_code == 404:
+      return "error"
+  with open(imgpath, 'wb') as handler:
+      handler.write(img_data.content)
+      return "ok"
+
 def manage_image(filename):
     new_filename = '.'.join(filename.split('.')[:-1])
     new_id = f"processed_{new_filename}.png"
+    print(f"FILENAME:: {filename}", flush=True)
     result = download_image(filename)
     if result == "error":
       print(f"cant process image {filename}", flush=True)
@@ -46,16 +58,7 @@ def manage_worker():
 
 
 
-def download_image(imgpath):
-  try:
-      img_data = requests.get(f"http://server/{imgpath}")
-  except ConnectionError:
-      return "error"
-  if img_data.status_code == 404:
-      return "error"
-  with open(imgpath, 'wb') as handler:
-      handler.write(img_data.content)
-      return "ok"
+
 
 @app.route('/image', methods=['POST'])
 def echo():
@@ -63,7 +66,7 @@ def echo():
     return jsonify({"status": "ok"})
 
 @app.route('/img/<path:path>')
-def send_js(path):
+def send_img(path):
     return send_from_directory('.', path)
 
 @app.route('/count')
