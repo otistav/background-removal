@@ -10,7 +10,8 @@ app = Flask(__name__)
 def download_image(imgpath):
   try:
       img_data = requests.get(f"http://server/{imgpath}")
-  except ConnectionError:
+  except Exception as e:
+      print("ERROR OCCURED", flush=True)
       return "error"
   if img_data.status_code == 404:
       return "error"
