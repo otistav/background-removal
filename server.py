@@ -12,6 +12,7 @@ def manage_image(filename):
     new_id = f"processed_{new_filename}.png"
     result = download_image(filename)
     if result == "error":
+      print(f"cant process image {filename}")
       return
     process(filename, new_id, 'u2net', 'bbd-fastrcnn', 'rtb-bnb')
     db = get_database()
@@ -33,9 +34,15 @@ def get_database():
 
 def manage_worker():
     db = get_database()
-    data = db['images'].find({ "processed": False })
-    for doc in data:
+    cursor = db['images'].find({ "processed": False })
+    if len(list(cursor)) == 0:
+      return
+    for doc in cursor:
+      print(f"PROCESSING IMAGE {doc['filename']}", flush=True)
       manage_image(doc["filename"])
+      print(f"DONE WITH IMAGE {doc['filename']}", flush=True)
+
+    manage_worker()
 
 
 
