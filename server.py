@@ -3,6 +3,8 @@ import requests
 from flask import Flask, json, jsonify, request, send_file, send_from_directory
 from pymongo import MongoClient
 import pymongo
+from urllib.parse import urlparse
+
 
 import datetime
 app = Flask(__name__)
@@ -56,7 +58,7 @@ def manage_worker():
         print(f"DONE WITH IMAGE {doc['filename']}", flush=True)
     if length == 0:
       return
-    manage_worker()
+    # manage_worker()
 
 
 
@@ -79,15 +81,19 @@ def count():
 
 @app.route('/test/<path:path>')
 def test(path):
-    try:
-        img_data = requests.get(f"http://server:80/{path}")
-        print(f"IMGDATA {img_data}")
-        return { "Ok": "Ok"}
-    except Exception as e:
-        print(f"EXCEPTION TEST {e}")
+  o = urlparse(request.base_url)
+  host = o.hostname
+  print(f"HOST: {host}", flush=True)
+  return jsonify({ "result": o })
+    # try:
+    #     img_data = requests.get(f"http://server:80/{path}")
+    #     print(f"IMGDATA {img_data}")
+    #     return { "Ok": "Ok"}
+    # except Exception as e:
+    #     print(f"EXCEPTION TEST {e}")
 
 
 
 
-manage_worker()
+# manage_worker()
 app.run(debug=True,host='0.0.0.0')
