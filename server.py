@@ -69,4 +69,5 @@ def count():
     cursor = db['images'].find({ "processed": False })
     return jsonify({"len": len(list(cursor))})
 
+manage_worker()
 app.run(debug=True,host='0.0.0.0')
