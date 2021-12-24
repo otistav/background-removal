@@ -13,6 +13,7 @@ def download_image(imgpath):
   try:
       o = urlparse(request.base_url)
       host = o.hostname
+      print(f"http://{host}/{imgpath}", flush=True)
       img_data = requests.get(f"http://{host}/{imgpath}")
   except Exception as e:
       # print(f"REQUEST URL: {img_data.request.url}", flush=True)
