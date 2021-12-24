@@ -32,7 +32,8 @@ def get_database():
 def manage_worker():
     db = get_database()
     data = db['images'].find({ "processed": False })
-    print(data, flush=True)
+    for doc in data:
+      print(doc, flush=True)
 
 
 def download_image(imgpath):
