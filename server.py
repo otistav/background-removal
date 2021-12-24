@@ -1,6 +1,6 @@
 from main import process
 import requests
-from flask import Flask, jsonify, request, send_file, send_from_directory
+from flask import Flask, json, jsonify, request, send_file, send_from_directory
 from pymongo import MongoClient
 import pymongo
 
@@ -13,7 +13,7 @@ def manage_image(filename):
     download_image(filename)
     process(filename, new_id, 'u2net', 'bbd-fastrcnn', 'rtb-bnb')
     db = get_database()
-    data = db['images'].find_one({"filename": new_id})
+    data = db['images'].find_one({"filename": filename})
     db['images'].update_one({
       '_id': data['_id']
     },{
@@ -21,13 +21,19 @@ def manage_image(filename):
         'processed': True,
       }
     }, upsert=False)
-    return jsonify({"status": "ok"})
+    return True
 
 
 def get_database():
     CONNECTION_STRING = "mongodb://mongo:27017/"
     client = MongoClient(CONNECTION_STRING)
     return client['test']
+
+def manage_worker():
+    db = get_database()
+    data = db['images'].find({ "processed": False })
+    print(data)
+
 
 def download_image(imgpath):
   img_data = requests.get(f"http://server:3000/{imgpath}").content
@@ -36,20 +42,7 @@ def download_image(imgpath):
 
 @app.route('/image', methods=['POST'])
 def echo():
-    params = request.json
-    filename = '.'.join(params['filename'].split('.')[:-1])
-    new_id = f"processed_{filename}.png"
-    download_image(params["filename"])
-    process(params["filename"], new_id, 'u2net', 'bbd-fastrcnn', 'rtb-bnb')
-    db = get_database()
-    data = db['images'].find_one({"filename": new_id})
-    db['images'].update_one({
-      '_id': data['_id']
-    },{
-      '$set': {
-        'processed': True,
-      }
-    }, upsert=False)
+    manage_worker()
     return jsonify({"status": "ok"})
 
 @app.route('/img/<path:path>')
