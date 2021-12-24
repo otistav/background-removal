@@ -32,6 +32,8 @@ def manage_image(filename):
     result = download_image(filename)
     if result == "error":
       print(f"cant process image {filename}", flush=True)
+      db = get_database()
+      db['images'].delete_one({"filename": filename})
       return
     process(filename, new_id, 'u2net', 'bbd-fastrcnn', 'rtb-bnb')
     db = get_database()
@@ -61,7 +63,7 @@ def manage_worker():
         print(f"DONE WITH IMAGE {doc['filename']}", flush=True)
     if length == 0:
       return
-    # manage_worker()
+    manage_worker()
 
 
 
@@ -98,5 +100,5 @@ def test(path):
 
 
 
-# manage_worker()
+manage_worker()
 app.run(debug=True,host='0.0.0.0')
