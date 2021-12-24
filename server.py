@@ -35,11 +35,12 @@ def get_database():
 def manage_worker():
     db = get_database()
     cursor = db['images'].find({ "processed": False })
+    length = len(list(cursor))
     for doc in cursor:
-      print(f"PROCESSING IMAGE {doc['filename']}", flush=True)
-      manage_image(doc["filename"])
-      print(f"DONE WITH IMAGE {doc['filename']}", flush=True)
-    if len(list(cursor)) == 0:
+        print(f"PROCESSING IMAGE {doc['filename']}", flush=True)
+        manage_image(doc["filename"])
+        print(f"DONE WITH IMAGE {doc['filename']}", flush=True)
+    if length == 0:
       return
     manage_worker()
 
